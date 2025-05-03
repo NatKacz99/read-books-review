@@ -48,6 +48,10 @@ header > p{
   width: 80%;
 }
 
+.error{
+  color: red;
+}
+
 img{
   width: 100%;
   height: 80%;

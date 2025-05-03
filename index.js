@@ -18,11 +18,34 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-
-app.get("/", async (req, res) => {
+async function selectAllBooks(){
   const result = await db.query("SELECT * FROM books");
   const books = result.rows;
+  return books;
+}
+
+app.get("/", async (req, res) => {
+  const books = await selectAllBooks();
   res.render("index.ejs", {books});
+});
+
+app.post("/search", async (req, res) => {
+  try{
+  const searchedPhrase = req.body.search;
+  const searchTerm = `%${searchedPhrase.toLowerCase()}%`;
+  const result = await db.query(`SELECT * FROM books WHERE
+    LOWER(title) LIKE $1 OR LOWER(author) LIKE $1`, [searchTerm]);
+  const books = result.rows;
+  if(books.length === 0){
+    const error = "Brak książek odpowiadających szukanej frazie.";
+    res.render("index.ejs", {books, error: error});
+    return;
+  }
+  res.render("index.ejs", {books, error: ""})
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error retrieving data.");
+  }
 });
 
 app.listen(port, () => {
