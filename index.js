@@ -18,10 +18,11 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-const URL_API = "https://covers.openlibrary.org/b/";
 
-app.get("/", (req, res) => {
-  res.render("index.ejs");
+app.get("/", async (req, res) => {
+  const result = await db.query("SELECT * FROM books");
+  const books = result.rows;
+  res.render("index.ejs", {books});
 });
 
 app.listen(port, () => {

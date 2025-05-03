@@ -1,30 +1,64 @@
 <%- include('partials/header.ejs'); -%>
 
-<header>
-  <div id="title">
-    <h1>Books showcase</h1>
-  </div>
-  <p><strong>Ta strona zawiera przegląd książek które przeczytałam. Znajdziesz tu moje opinie i notatki na temat różnych publikacji.</strong></p>
-</header>
+  <header>
+    <div id="title">
+      <h1>Books showcase</h1>
+    </div>
+    <p><strong>Ta strona zawiera przegląd książek które przeczytałam. Znajdziesz tu moje opinie i notatki na temat
+        różnych publikacji.</strong></p>
+  </header>
 
-<article>
-  <div class="overview_books">
-    <div>
-      <h2>Służące do wszystkiego</h2>
+  <article>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="Eleventh navbar example">
+        <div class="container-fluid d-flex align-items-center">
+          <span class="me-3 mb-0">Sortuj</span>
+          <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="navbar-collapse collapse" id="navbarsExample09" style="">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="#">tytułem</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">oceną</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">gatunkiem</a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+            </ul>
+            <form role="search">
+              <input class="form-control" type="search" placeholder="Szukaj" aria-label="Search">
+            </form>
+          </div>
+        </div>
+      </nav>
+      <div class="overview_books">
+        <% books.forEach(function(book){ %>
+          <div class="book">
+            <img src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-L.jpg" alt="book cover">
+            <h2>
+              <%=book.title%>
+            </h2>
+            <h3>
+              <%=book.author%>
+            </h3>
+            <div class="stars_rating">
+              <% for(let i=0 ;i<5; i++){ %>
+                <button class="star" type="button">&#9734;</button>
+              <% } %>
+            </div>
+          </div>
+          <% }) %>
+      </div>
     </div>
-    <div>
-      <h2>Zbrodnia i kara</h2>
-    </div>
-    <div>
-      <h2>W pustyni i puszczy</h2>
-    </div>
-    <div>
-      <h2>Lalka</h2>
-    </div>
-    <div>
-      <h2>Zanim wystygnie kawa</h2>
-    </div>
-  </div>
-<article>
+    <article>
 
-<%- include('partials/footer.ejs'); -%>
+      <%- include('partials/footer.ejs'); -%>

@@ -1,4 +1,24 @@
 </main>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.book').forEach(book => {
+      const allStars = book.querySelectorAll(".star");
+      
+      allStars.forEach((star, i) => {
+        star.onclick = function () {
+          let currentStartLevel = i + 1;
+          allStars.forEach((star, j) => {
+            if (currentStartLevel >= j + 1) {
+              star.innerHTML = '&#9733';
+            } else {
+              star.innerHTML = '&#9734';
+            }
+          })
+        }
+      })
+    });
+  });
+</script>
 </body>
 
 </html>
