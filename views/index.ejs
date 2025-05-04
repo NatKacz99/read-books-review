@@ -44,6 +44,7 @@
                 </ul>
               </li>
             </ul>
+            <a href="/add-new-book" style="text-decoration: none; color: black;"><span class="me-3 mb-0">Dodaj nową książkę</span></a>
             <form role="search" action="/search" method="post">
               <input class="form-control" type="search" name="search" placeholder="Szukaj" aria-label="Search">
               <% if(locals.error){ %>
@@ -57,20 +58,22 @@
       </nav>
       <div class="overview_books">
         <% books.forEach(function(book){ %>
-          <div class="book">
-            <img src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-L.jpg" alt="book cover">
-            <h2>
-              <%=book.title%>
-            </h2>
-            <h3>
-              <%=book.author%>
-            </h3>
-            <div class="stars_rating">
-              <% for(let i=0 ;i<5; i++){ %>
-                <button class="star" type="button">&#9734;</button>
-              <% } %>
+            <div class="book">
+            <a href="/details/<%= book.book_id%>" style="text-decoration: none; color: black;">
+              <img src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-L.jpg" alt="book cover">
+              <h2>
+                <%=book.title%>
+              </h2>
+              <h3>
+                <%=book.author%>
+              </h3>
+            </a>
+              <div class="stars_rating">
+                <% for(let i=0 ;i<5; i++){ %>
+                  <button class="star" type="button">&#9734;</button>
+                <% } %>
+              </div>
             </div>
-          </div>
           <% }) %>
       </div>
     </div>

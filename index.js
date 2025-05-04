@@ -68,23 +68,6 @@ app.get("/sort/:kindOfSort", async (req, res, next) => {
   }
 });
 
-
-app.get("/sort/:kindOfSort", async (req, res) => {
-  const selectedKindOfSort = req.params.kindOfSort;
-  try {
-    if (selectedKindOfSort === "tytułem") {
-      const result = await db.query(`SELECT * FROM books ORDER BY title ASC`)
-      const books = result.rows;
-      res.render("index.ejs", {
-        books,
-        kindOfSort: selectedKindOfSort
-      })
-    }
-  } catch (err) {
-    console.error("Error during insertion:", err);
-  }
-})
-
 app.get("/sort/:kindOfSort/:genre", async (req, res) => {
   const selectedKindOfSort = req.params.kindOfSort;
   const selectedOptionGenre = req.params.genre;
@@ -118,6 +101,21 @@ app.post("/search", async (req, res) => {
     res.status(500).send("Error retrieving data.");
   }
 });
+
+app.get("/details/:selectedBookId", async (req, res) => {
+  const allBooks = await selectAllBooks();
+  const selectedBookId = req.params.selectedBookId;
+  const result = await db.query(`SELECT books.*, rates.rate_description 
+      FROM books
+      LEFT JOIN rates ON books.book_id = rates.book_id
+      WHERE books.book_id = $1`,
+    [selectedBookId]);
+  const book = result.rows[0];
+  if(book.length === 0){
+    return res.status(404).send("Nie znaleziono książki.");
+  }
+  res.render("details.ejs", {book, allBooks});
+})
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
