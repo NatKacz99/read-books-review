@@ -33,6 +33,18 @@ app.get("/", async (req, res) => {
      });
 });
 
+app.get("/sort/:kindOfSort", async (req, res) => {
+  const selectedKindOfSort = req.params.kindOfSort;
+  if(selectedKindOfSort === "tytułem"){
+    const result = await db.query(`SELECT * FROM books ORDER BY title ASC`)
+    const books = result.rows;
+    res.render("index.ejs", { 
+      books,
+      kindOfSort: selectedKindOfSort
+    })
+  }
+})
+
 app.get("/sort/:kindOfSort/:genre", async (req, res) => {
   const selectedKindOfSort = req.params.kindOfSort;
   const selectedOptionGenre = req.params.genre;
