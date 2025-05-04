@@ -48,6 +48,23 @@ header > p{
   width: 80%;
 }
 
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-left: 0.1rem;
+  margin-right: 0.1rem;
+  display: none;
+  position: relative;
+}
+
+.dropdown-submenu:hover > .dropdown-menu {
+  display: block;
+}
+
 .error{
   color: red;
 }
