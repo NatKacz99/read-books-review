@@ -29,6 +29,14 @@ app.get("/", async (req, res) => {
   res.render("index.ejs", {books});
 });
 
+app.get("/sort/:options", async (req, res) => {
+  const selectedOption = req.params.options;
+  const result = await db.query(`SELECT * FROM books WHERE
+    genre LIKE $1`, [`%${selectedOption}`]);
+  const books = result.rows
+  res.render("index.ejs", {books})
+})
+
 app.post("/search", async (req, res) => {
   try{
   const searchedPhrase = req.body.search;
