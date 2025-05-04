@@ -42,6 +42,7 @@ header > p{
 
 .book:hover{
   transform: translateY(-20px);
+  cursor: pointer;
 }
 
 .container{
