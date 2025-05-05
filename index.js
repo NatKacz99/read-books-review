@@ -114,7 +114,12 @@ app.get("/details/:selectedBookId", async (req, res) => {
   if(book.length === 0){
     return res.status(404).send("Nie znaleziono książki.");
   }
-  res.render("details.ejs", {book, allBooks});
+  const notesResult = await db.query(`SELECT content_note FROM notes 
+    LEFT JOIN books ON books.book_id = notes.book_id
+    WHERE notes.book_id = $1`, [selectedBookId]);
+    const note = notesResult.rows[0]?.content_note || "";
+  console.log(note);
+  res.render("details.ejs", {book, allBooks, note});
 })
 
 app.listen(port, () => {

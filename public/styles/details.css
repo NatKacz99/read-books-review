@@ -14,7 +14,6 @@ body{
 .review{
   background-color: #f8f9fa;
   position: relative;
-  height: 100%;
   overflow: hidden;
 }
 
@@ -33,7 +32,16 @@ h2 {
   font-weight: normal;
 }
 
-
 p{
   text-align: justify;
 }
+
+.notes{
+  background-color: #f8f9fa;
+  clear: both;
+  width: max-content;
+  margin: 0 auto;
+  border-radius: 5px;
+  box-shadow: 2px 3px 25px 1px rgb(72, 52, 32);
+}
+
