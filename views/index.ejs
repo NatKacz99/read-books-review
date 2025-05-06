@@ -44,7 +44,14 @@
                 </ul>
               </li>
             </ul>
-            <a href="/add-new-book" style="text-decoration: none; color: black;"><span class="me-3 mb-0">Dodaj nową książkę</span></a>
+            <form id="add-book-form" action="/add-new-book" method="POST" style="display: none;">
+            </form>
+            <!-- Link, which click a hidden form. -->
+            <a href="#" 
+               onclick="event.preventDefault(); document.getElementById('add-book-form').submit();"
+               role = "button" class="addedNewBook" style="text-decoration: none; color: black; cursor: pointer;">
+              <span class="me-3 mb-0">Dodaj nową książkę</span>
+            </a>
             <form role="search" action="/search" method="post">
               <input class="form-control" type="search" name="search" placeholder="Szukaj" aria-label="Search">
               <% if(locals.error){ %>

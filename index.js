@@ -83,6 +83,41 @@ app.get("/sort/:kindOfSort/:genre", async (req, res) => {
   }
 })
 
+app.post("/add-new-book", async (req, res) => {
+  res.redirect("/new");
+})
+
+app.get("/new", (req, res) => {
+  res.render("new.ejs", {
+    title: "",
+    author: "",
+    genre: "",
+    isbn: "",
+    error: null
+  })
+})
+
+app.post("/new", async (req, res) => { 
+  const title = req.body.title;
+  const author = req.body.author;
+  const genre = req.body.genre;
+  const isbn = req.body.isbn;
+
+  if(title.length !== 0 && author.length !== 0 && genre.length !== 0 && isbn.length !== 0){
+    const result = await db.query(`INSERT INTO books (title, author, genre, isbn) 
+      VALUES ($1, $2, $3, $4) RETURNING *`, 
+      [title, author, genre, isbn]);
+    console.log("The book added to DB:", result.rows[0]);
+    return res.render("new.ejs", {
+      title, author, genre, isbn
+    })
+  } else{
+      return res.render("new.ejs", {
+        error: "This field is required."
+      })
+  }
+})
+
 app.post("/search", async (req, res) => {
   try {
     const searchedPhrase = req.body.search;
@@ -118,7 +153,6 @@ app.get("/details/:selectedBookId", async (req, res) => {
     LEFT JOIN books ON books.book_id = notes.book_id
     WHERE notes.book_id = $1`, [selectedBookId]);
     const note = notesResult.rows[0]?.content_note || "";
-  console.log(note);
   res.render("details.ejs", {book, allBooks, note});
 })
 

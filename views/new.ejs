@@ -1,0 +1,15 @@
+<%- include('partials/headerNewBook.ejs'); -%>
+
+<form method="post">
+  <label>Tytuł</label>
+  <input name="title" value="<%= typeof title !== 'undefined' ? title : '' %>"></input>
+  <label>Autor</label>
+  <input name="author" value="<%= typeof title !== 'undefined' ? author : '' %>"></input>
+  <label>Gatunek literacki</label>
+  <input name="genre" value="<%= typeof title !== 'undefined' ? genre : '' %>"></input>
+  <label>ISBN</label>
+  <input name="isbn" value="<%= typeof title !== 'undefined' ? isbn : '' %>"></input>
+  <button type="submit">Dodaj</button>
+</form>
+
+<%- include('partials/footerDetails.ejs'); -%>

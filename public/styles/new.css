@@ -1,0 +1,16 @@
+body{
+  background: linear-gradient(rgba(200, 181, 157, 0.6), rgba(186, 168, 143, 0.6)),
+  url("/background.jpg") no-repeat center center;
+  background-size: cover;
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+  position: relative;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
