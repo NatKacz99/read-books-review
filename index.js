@@ -93,7 +93,7 @@ app.get("/new", (req, res) => {
     author: "",
     genre: "",
     isbn: "",
-    error: null
+    errors: {}
   })
 })
 
@@ -103,17 +103,24 @@ app.post("/new", async (req, res) => {
   const genre = req.body.genre;
   const isbn = req.body.isbn;
 
+  const errors = {};
+
+  if (!title) errors.title = "To pole jest wymagane.";
+  if (!author) errors.author = "To pole jest wymagane.";
+  if (!genre) errors.genre = "To pole jest wymagane.";
+  if (!isbn) errors.isbn = "To pole jest wymagane.";
+
   if(title.length !== 0 && author.length !== 0 && genre.length !== 0 && isbn.length !== 0){
     const result = await db.query(`INSERT INTO books (title, author, genre, isbn) 
       VALUES ($1, $2, $3, $4) RETURNING *`, 
       [title, author, genre, isbn]);
     console.log("The book added to DB:", result.rows[0]);
     return res.render("new.ejs", {
-      title, author, genre, isbn
+      title, author, genre, isbn, errors: {}
     })
   } else{
       return res.render("new.ejs", {
-        error: "This field is required."
+        errors, title, author, genre, isbn
       })
   }
 })

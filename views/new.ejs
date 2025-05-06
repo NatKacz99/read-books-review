@@ -1,15 +1,28 @@
 <%- include('partials/headerNewBook.ejs'); -%>
+<h1>Dodaj nową książkę</h1>
 
-<form method="post">
-  <label>Tytuł</label>
-  <input name="title" value="<%= typeof title !== 'undefined' ? title : '' %>"></input>
-  <label>Autor</label>
-  <input name="author" value="<%= typeof title !== 'undefined' ? author : '' %>"></input>
-  <label>Gatunek literacki</label>
-  <input name="genre" value="<%= typeof title !== 'undefined' ? genre : '' %>"></input>
-  <label>ISBN</label>
-  <input name="isbn" value="<%= typeof title !== 'undefined' ? isbn : '' %>"></input>
-  <button type="submit">Dodaj</button>
-</form>
+  <form class="form-new-book" method="post">
+    <label>Tytuł</label>
+    <input name="title" value="<%= typeof title !== 'undefined' ? title : '' %>"></input>
+    <% if(errors.title){ %>
+      <div class="error"><%= errors.title %></div>
+    <% } %>
+    <label>Autor</label>
+    <input name="author" value="<%= typeof title !== 'undefined' ? author : '' %>"></input>
+    <% if(errors.author){ %>
+      <div class="error"><%= errors.author %></div>
+    <% } %>
+    <label>Gatunek literacki</label>
+    <input name="genre" value="<%= typeof title !== 'undefined' ? genre : '' %>"></input>
+    <% if(errors.genre){ %>
+      <div class="error"><%= errors.genre %></div>
+    <% } %>
+    <label>ISBN</label>
+    <input name="isbn" value="<%= typeof title !== 'undefined' ? isbn : '' %>"></input>
+    <% if(errors.isbn){ %>
+      <div class="error"><%= errors.isbn %></div>
+    <% } %>
+    <button type="submit">Dodaj</button>
+  </form>
 
-<%- include('partials/footerDetails.ejs'); -%>
+  <%- include('partials/footerDetails.ejs'); -%>
