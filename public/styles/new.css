@@ -2,6 +2,8 @@ body{
   background: linear-gradient(rgba(200, 181, 157, 0.6), rgba(186, 168, 143, 0.6)),
   url("/background.jpg") no-repeat center center;
   background-size: cover;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   min-height: 100vh;
   height: auto;
@@ -10,13 +12,17 @@ body{
   box-sizing: border-box;
 }
 
-#navigation{
+.container{
+  flex: 1
+}
+
+.navigation{
   background: linear-gradient(to right, #441b0c, #c87b00, #e7ee94);
   padding: 0.5rem;
   position: relative
 }
 
-a{
+nav > p > a{
   text-decoration: none;
   color: white;
 }
@@ -63,4 +69,8 @@ button{
 
 button:hover{
   cursor: pointer;
+}
+
+footer p{
+  text-align: center;
 }

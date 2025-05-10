@@ -56,3 +56,11 @@ button{
   box-shadow: 2px 3px 25px 1px rgb(72, 52, 32);
 }
 
+footer{
+  clear: both;
+}
+
+footer > p{
+  text-align: center;
+}
+

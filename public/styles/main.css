@@ -2,12 +2,18 @@ body{
   background: linear-gradient(rgba(200, 181, 157, 0.6), rgba(186, 168, 143, 0.6)),
   url("/background.jpg") no-repeat center center;
   background-size: cover;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   min-height: 100vh;
   height: auto;
   margin: 0;
   position: relative;
   box-sizing: border-box;
+}
+
+.container{
+  flex: 1
 }
 
 #title{
@@ -94,6 +100,10 @@ img{
 
 .star.active {
   color: gold;  
+}
+
+footer{
+  text-align: center;
 }
 
 @media(max-width: 768px) {

@@ -1,94 +1,101 @@
 <%- include('partials/header.ejs'); -%>
 
-  <header>
-    <div id="title">
-      <h1>Books showcase</h1>
-    </div>
-    <p><strong> Witaj! Ta strona zawiera przegląd książek, które przeczytałam. Znajdziesz tu moje opinie i notatki na
-        temat różnych publikacji.</strong></p>
-  </header>
+  <div class="container">
+    <main>
+      <header>
+        <div id="title">
+          <h1>Books showcase</h1>
+        </div>
+        <p><strong> Witaj! Ta strona zawiera przegląd książek, które przeczytałam. Znajdziesz tu moje opinie i notatki
+            na
+            temat różnych publikacji.</strong></p>
+      </header>
 
-  <article>
-    <div class="container">
-      <nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="Eleventh navbar example">
-        <div class="container-fluid d-flex align-items-center">
-          <span class="me-3 mb-0">Sortuj</span>
-          <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+      <article>
+        <div class="container">
+          <nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="Eleventh navbar example">
+            <div class="container-fluid d-flex align-items-center">
+              <span class="me-3 mb-0">Sortuj</span>
+              <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
 
-          <div class="navbar-collapse collapse" id="navbarsExample09" style="">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0" name="kindOfSort">
-              <li class="nav-item">
-                <a class="nav-link" href="/sort/tytułem">tytułem</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/sort/oceną">oceną</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="genreDropdown" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false" name="genre">gatunkiem</a>
-                <ul class="dropdown-menu" aria-labelledby="genreDropdown">
-                  <li class="dropdown-submenu" name="genre">
-                    <a class="dropdown-item dropdown-toggle" href="/sort/gatunkiem/powieść">powieść</a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="/sort/gatunkiem/przygodowa">przygodowa</a></li>
-                      <li><a class="dropdown-item" href="/sort/gatunkiem/psychologiczna">psychologiczna</a></li>
-                      <li><a class="dropdown-item" href="/sort/gatunkiem/społeczno-obyczajowa">społeczno-obyczajowa</a>
+              <div class="navbar-collapse collapse" id="navbarsExample09" style="">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" name="kindOfSort">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/sort/tytułem">tytułem</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/sort/oceną">oceną</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="genreDropdown" role="button"
+                      data-bs-toggle="dropdown" aria-expanded="false" name="genre">gatunkiem</a>
+                    <ul class="dropdown-menu" aria-labelledby="genreDropdown">
+                      <li class="dropdown-submenu" name="genre">
+                        <a class="dropdown-item dropdown-toggle" href="/sort/gatunkiem/powieść">powieść</a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="/sort/gatunkiem/przygodowa">przygodowa</a></li>
+                          <li><a class="dropdown-item" href="/sort/gatunkiem/psychologiczna">psychologiczna</a></li>
+                          <li><a class="dropdown-item"
+                              href="/sort/gatunkiem/społeczno-obyczajowa">społeczno-obyczajowa</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="dropdown-item" href="/sort/gatunkiem/reportaż%20historyczny">reportaż
+                          historyczny</a>
                       </li>
                     </ul>
                   </li>
-                  <li><a class="dropdown-item" href="/sort/gatunkiem/reportaż%20historyczny">reportaż historyczny</a>
-                  </li>
                 </ul>
-              </li>
-            </ul>
-            <form id="add-book-form" action="/add-new-book" method="POST" style="display: none;">
-            </form>
-            <!-- Link, which click a hidden form. -->
-            <a href="#" onclick="event.preventDefault(); document.getElementById('add-book-form').submit();"
-              role="button" class="addedNewBook" style="text-decoration: none; color: black; cursor: pointer;">
-              <span class="me-3 mb-0">Dodaj nową książkę</span>
-            </a>
-            <form role="search" action="/search" method="post">
-              <input class="form-control" type="search" name="search" placeholder="Szukaj" aria-label="Search">
-              <% if(locals.error){ %>
-                <div class="error">
-                  <%= locals.error %>
-                </div>
-                <% } %>
-            </form>
+                <form id="add-book-form" action="/add-new-book" method="POST" style="display: none;">
+                </form>
+                <!-- Link, which click a hidden form. -->
+                <a href="#" onclick="event.preventDefault(); document.getElementById('add-book-form').submit();"
+                  role="button" class="addedNewBook" style="text-decoration: none; color: black; cursor: pointer;">
+                  <span class="me-3 mb-0">Dodaj nową książkę</span>
+                </a>
+                <form role="search" action="/search" method="post">
+                  <input class="form-control" type="search" name="search" placeholder="Szukaj" aria-label="Search">
+                  <% if(locals.error){ %>
+                    <div class="error">
+                      <%= locals.error %>
+                    </div>
+                    <% } %>
+                </form>
+              </div>
+            </div>
+          </nav>
+          <div class="overview_books">
+            <% books.forEach(function(book){ %>
+              <div class="book">
+                <a href="/details/<%= book.book_id%>" style="text-decoration: none; color: black;">
+                  <img src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-L.jpg" alt="book cover">
+                  <h2>
+                    <%=book.title%>
+                  </h2>
+                  <h3>
+                    <%=book.author%>
+                  </h3>
+                </a>
+                <form class="ratingForm" method="post" action="/submitRating">
+                  <input type="hidden" name="bookId" value="<%= book.book_id %>">
+                  <input type="hidden" name="rating" class="selectedRating" value="<%= book.rate_digit || 0 %>">
+
+                  <div class="stars_rating">
+                    <% for(let i=0; i<5; i++){ %>
+                      <button class="star" type="button">&#9734;</button>
+                      <% } %>
+                  </div>
+                </form>
+              </div>
+              <% }) %>
           </div>
         </div>
-      </nav>
-      <div class="overview_books">
-        <% books.forEach(function(book){ %>
-          <div class="book">
-            <a href="/details/<%= book.book_id%>" style="text-decoration: none; color: black;">
-              <img src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-L.jpg" alt="book cover">
-              <h2>
-                <%=book.title%>
-              </h2>
-              <h3>
-                <%=book.author%>
-              </h3>
-            </a>
-            <form class="ratingForm" method="post" action="/submitRating">
-              <input type="hidden" name="bookId" value="<%= book.book_id %>">
-              <input type="hidden" name="rating" class="selectedRating" value="<%= book.rate_digit || 0 %>">
+        <article>
+    </main>
+  </div>
 
-              <div class="stars_rating">
-                <% for(let i=0; i<5; i++){ %>
-                  <button class="star" type="button">&#9734;</button>
-                  <% } %>
-              </div>
-            </form>
-          </div>
-          <% }) %>
-      </div>
-    </div>
-    <article>
-
-      <%- include('partials/footer.ejs'); -%>
+  <%- include('partials/footer.ejs'); -%>
