@@ -35,11 +35,23 @@ p{
   text-align: justify;
 }
 
+button{
+  margin-right: 15px
+}
+
+.editRate{
+  display: flex;
+}
+
+.editSubmit{
+  display: none;
+}
+
 .notes{
   background-color: #f8f9fa;
   clear: both;
-  width: max-content;
-  margin: 0 auto;
+  width: 50%;
+  margin: 20px auto;
   border-radius: 5px;
   box-shadow: 2px 3px 25px 1px rgb(72, 52, 32);
 }

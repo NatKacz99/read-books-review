@@ -1,4 +1,17 @@
 </main>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const editButton = document.getElementsByClassName("edit")[0];
+    const updateTextarea = document.getElementById("updateRating");
+    const editSubmit = document.getElementsByClassName("editSubmit")[0];
+
+    editButton.addEventListener("click", function() {
+      updateTextarea.style.display = "block";
+      editButton.style.display = "none";
+      editSubmit.style.display = "inline-flex";
+    });
+  })
+</script>
 </body>
 
 </html>

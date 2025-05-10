@@ -10,16 +10,66 @@
         <h2>
           <%=book.author%>
         </h2>
-        <p>
-          <%=book.rate_description%>
-        </p>
+        <% if (rates.length> 0) { %>
+          <% rates.forEach(rate=> { %>
+            <p>
+              <%= rate.rate_description %>
+            </p>
+            <% }) %>
+              <% } %>
+                <% rates.forEach(rate=> { %>
+                  <div style="display: flex">
+                    <form method="post" action="/editRating">
+                      <input type="hidden" name="rate_id" value="<%= rate.rate_id %>">
+                      <input type="hidden" name="bookId" value="<%= rate.book_id %>">
+                      <div class="editRate">
+                        <textarea id="updateRating" name="rateDescription"
+                          style="display: none"><%=rate.rate_description%></textarea>
+                        <div>
+                          <button type="button" class="edit" name="edit">Edytuj</button>
+                          <button type="submit" class="editSubmit">Zapisz zmiany</button>
+                        </div>
+                      </div>
+                    </form>
+
+                    <form method="post" action="/deleteRating">
+                      <input type="hidden" name="rate_id" value="<%= rate.rate_id %>">
+                      <input type="hidden" name="bookId" value="<%= rate.book_id %>">
+                      <button type="button" class="deleteButton" data-bs-toggle="modal"
+                        data-bs-target="#myModal">Usuń</button>
+
+
+
+                      <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <p>Czy na pewno chcesz usunąć wybraną recenzję?</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                              <button type="submit" class="btn btn-primary">Tak</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </form>
+                  </div>
+                  <% }) %>
       </div>
     </section>
 
     <section>
       <div class="notes">
         <h3>Notatki</h3>
-        <p><%- note.replace(/\n/g, "<br>") %></p>
+        <p><%- note.replace(/\n/g, "<br>" ) %></p>
       </div>
     </section>
   </article>

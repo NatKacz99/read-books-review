@@ -19,7 +19,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 async function selectAllBooks() {
-  const result = await db.query("SELECT * FROM books");
+  const result = await db.query(`SELECT books.*, rates.rate_digit FROM books LEFT JOIN rates
+    ON rates.book_id = books.book_id`);
   const books = result.rows;
   return books;
 }
@@ -30,7 +31,7 @@ app.get("/", async (req, res) => {
     {
       books,
       kindOfSort: null,
-      genre: null
+      genre: null,
     });
 });
 
@@ -140,27 +141,74 @@ app.post("/search", async (req, res) => {
     res.render("index.ejs", { books, error: "" })
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error retrieving data.");
+    res.status(500).send("Błąd pobierania danych.");
+  }
+});
+
+app.post("/submitRating", async (req, res) => {
+  try {
+    const bookId = req.body.bookId;
+    const stars  = parseInt(req.body.rating);
+
+    await db.query(
+      `UPDATE rates
+       SET rate_digit = ($1)
+       WHERE book_id   = ($2);`,
+      [stars, bookId]
+    );
+
+    res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Błąd zapisu oceny.");
   }
 });
 
 app.get("/details/:selectedBookId", async (req, res) => {
   const allBooks = await selectAllBooks();
   const selectedBookId = req.params.selectedBookId;
-  const result = await db.query(`SELECT books.*, rates.rate_description 
+  const result = await db.query(`SELECT *
       FROM books
-      LEFT JOIN rates ON books.book_id = rates.book_id
       WHERE books.book_id = $1`,
     [selectedBookId]);
   const book = result.rows[0];
-  if(book.length === 0){
+  if(result.rows.length === 0){
     return res.status(404).send("Nie znaleziono książki.");
   }
-  const notesResult = await db.query(`SELECT content_note FROM notes 
-    LEFT JOIN books ON books.book_id = notes.book_id
-    WHERE notes.book_id = $1`, [selectedBookId]);
+  const notesResult = await db.query(`SELECT content_note 
+      FROM notes 
+      WHERE book_id = $1`, [selectedBookId]);
     const note = notesResult.rows[0]?.content_note || "";
-  res.render("details.ejs", {book, allBooks, note});
+  const resultRates = await db.query(`SELECT * FROM rates WHERE book_id = $1`, [selectedBookId]);
+  const rates = resultRates.rows;
+  
+  res.render("details.ejs", {book, allBooks, note, rates});
+})
+
+app.post("/editRating", async (req, res) => {
+  const bookId = req.body.bookId;
+  const updatedRatingId = req.body.rate_id;
+  const rateDescription = req.body.rateDescription;
+  await db.query(`UPDATE rates
+        SET rate_description = $2
+      WHERE rate_id = $1`,
+    [ updatedRatingId, rateDescription ]
+  );
+  res.redirect(`/details/${bookId}`);
+})
+
+app.post("/deleteRating", async (req, res) => {
+  const bookId = req.body.bookId;
+  const deletingRateId = req.body.rate_id;
+
+  try {
+    await db.query(`DELETE FROM rates WHERE rate_id = $1`, [deletingRateId]);
+    
+    res.redirect(`/details/${bookId}`);
+  } catch (error) {
+    console.error("Mistake while rate deleting:", error);
+    res.status(500).send("Wystąpił błąd podczas usuwania oceny.");
+  }
 })
 
 app.listen(port, () => {
