@@ -31,6 +31,12 @@ input, label{
   margin: 0 auto;
 }
 
+textarea{
+  width: 60%;
+  margin: 0 auto;
+  resize: none
+}
+
 .error{
   color: red;
   margin: 0 auto;

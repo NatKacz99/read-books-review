@@ -94,15 +94,19 @@ app.get("/new", (req, res) => {
     author: "",
     genre: "",
     isbn: "",
+    rating: "",
+    notes: "",
     errors: {}
   })
 })
 
-app.post("/new", async (req, res) => { 
+app.post("/new", async (req, res) => {
   const title = req.body.title;
   const author = req.body.author;
   const genre = req.body.genre;
   const isbn = req.body.isbn;
+  const rating = req.body.rating;
+  const notes = req.body.notes;
 
   const errors = {};
 
@@ -110,19 +114,35 @@ app.post("/new", async (req, res) => {
   if (!author) errors.author = "To pole jest wymagane.";
   if (!genre) errors.genre = "To pole jest wymagane.";
   if (!isbn) errors.isbn = "To pole jest wymagane.";
+  if (!rating) errors.rating = "To pole jest wymagane.";
+  if (!notes) errors.notes = "To pole jest wymagane.";
 
-  if(title.length !== 0 && author.length !== 0 && genre.length !== 0 && isbn.length !== 0){
-    const result = await db.query(`INSERT INTO books (title, author, genre, isbn) 
-      VALUES ($1, $2, $3, $4) RETURNING *`, 
+  if (title.length !== 0 && author.length !== 0 && genre.length !== 0 && isbn.length !== 0
+    && rating.length !== 0 && notes.length !== 0) {
+    const resultBook = await db.query(`INSERT INTO books (title, author, genre, isbn) 
+      VALUES ($1, $2, $3, $4) RETURNING *`,
       [title, author, genre, isbn]);
-    console.log("The book added to DB:", result.rows[0]);
+    console.log("The book added to DB for books table:", resultBook.rows[0]);
+
+    const bookId = resultBook.rows[0].book_id;
+
+    const date = new Date();
+    const resultRating = await db.query(`INSERT INTO rates (rate_description, book_id, date_rating)
+      VALUES ($1, $2, $3) RETURNING *`, [rating, bookId, date]);
+    console.log("The rating description added to DB for rates table:", resultRating.rows[0]);
+
+
+    const resultNotes = await db.query(`INSERT INTO notes (content_note, book_id)
+      VALUES ($1, $2) RETURNING *`, [notes, bookId]);
+    console.log("The notes added to DB for books table:", resultNotes.rows[0]);
+
     return res.render("new.ejs", {
-      title, author, genre, isbn, errors: {}
+      title, author, genre, isbn, rating, notes, date, errors: {}
     })
-  } else{
-      return res.render("new.ejs", {
-        errors, title, author, genre, isbn
-      })
+  } else {
+    return res.render("new.ejs", {
+      errors, title, author, genre, isbn, rating, notes, date
+    })
   }
 })
 
@@ -148,7 +168,7 @@ app.post("/search", async (req, res) => {
 app.post("/submitRating", async (req, res) => {
   try {
     const bookId = req.body.bookId;
-    const stars  = parseInt(req.body.rating);
+    const stars = parseInt(req.body.rating);
 
     await db.query(
       `UPDATE rates
@@ -172,27 +192,28 @@ app.get("/details/:selectedBookId", async (req, res) => {
       WHERE books.book_id = $1`,
     [selectedBookId]);
   const book = result.rows[0];
-  if(result.rows.length === 0){
+  if (result.rows.length === 0) {
     return res.status(404).send("Nie znaleziono książki.");
   }
   const notesResult = await db.query(`SELECT content_note 
       FROM notes 
       WHERE book_id = $1`, [selectedBookId]);
-    const note = notesResult.rows[0]?.content_note || "";
+  const note = notesResult.rows[0]?.content_note || "";
   const resultRates = await db.query(`SELECT * FROM rates WHERE book_id = $1`, [selectedBookId]);
   const rates = resultRates.rows;
-  
-  res.render("details.ejs", {book, allBooks, note, rates});
+
+  res.render("details.ejs", { book, allBooks, note, rates });
 })
 
 app.post("/editRating", async (req, res) => {
   const bookId = req.body.bookId;
   const updatedRatingId = req.body.rate_id;
   const rateDescription = req.body.rateDescription;
+  const date = new Date();
   await db.query(`UPDATE rates
-        SET rate_description = $2
+      SET rate_description = $2, date_rating = $3
       WHERE rate_id = $1`,
-    [ updatedRatingId, rateDescription ]
+    [updatedRatingId, rateDescription, date]
   );
   res.redirect(`/details/${bookId}`);
 })
@@ -203,7 +224,7 @@ app.post("/deleteRating", async (req, res) => {
 
   try {
     await db.query(`DELETE FROM rates WHERE rate_id = $1`, [deletingRateId]);
-    
+
     res.redirect(`/details/${bookId}`);
   } catch (error) {
     console.error("Mistake while rate deleting:", error);
