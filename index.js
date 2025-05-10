@@ -180,7 +180,7 @@ app.post("/submitRating", async (req, res) => {
 
     res.redirect("/");
   } catch (err) {
-    console.error(err);
+    console.log(err);
     res.status(500).send("Błąd zapisu oceny.");
   }
 });
