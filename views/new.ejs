@@ -1,38 +1,59 @@
 <%- include('partials/headerNewBook.ejs'); -%>
-<h1>Dodaj nową książkę</h1>
+
+  <section>
+    <div id="navigation">
+      <nav>
+          <p><a href="/">Strona główna</a></p>
+      </nav>
+  </section>
+  </div>
+
+  <h1>Dodaj nową książkę</h1>
 
   <form class="form-new-book" method="post">
     <label>Tytuł</label>
     <input name="title" value="<%= typeof title !== 'undefined' ? title : '' %>"></input>
     <% if(errors.title){ %>
-      <div class="error"><%= errors.title %></div>
-    <% } %>
-    <label>Autor</label>
-    <input name="author" value="<%= typeof author !== 'undefined' ? author : '' %>"></input>
-    <% if(errors.author){ %>
-      <div class="error"><%= errors.author %></div>
-    <% } %>
-    <label>Gatunek literacki</label>
-    <input name="genre" value="<%= typeof genre !== 'undefined' ? genre : '' %>"></input>
-    <% if(errors.genre){ %>
-      <div class="error"><%= errors.genre %></div>
-    <% } %>
-    <label>ISBN</label>
-    <input name="isbn" value="<%= typeof isbn !== 'undefined' ? isbn : '' %>"></input>
-    <% if(errors.isbn){ %>
-      <div class="error"><%= errors.isbn %></div>
-    <% } %>
-    <label>Opis oceny</label>
-    <textarea name="rating" value="<%= typeof rating !== 'undefined' ? rating : '' %>"></textarea>
-    <% if(errors.rating){ %>
-      <div class="error"><%= errors.rating %></div>
-    <% } %>
-    <label>Notatki</label>
-    <textarea name="notes" value="<%= typeof notes !== 'undefined' ? notes : '' %>"></textarea>
-    <% if(errors.notes){ %>
-      <div class="error"><%= errors.notes %></div>
-    <% } %>
-    <button type="submit">Dodaj</button>
+      <div class="error">
+        <%= errors.title %>
+      </div>
+      <% } %>
+        <label>Autor</label>
+        <input name="author" value="<%= typeof author !== 'undefined' ? author : '' %>"></input>
+        <% if(errors.author){ %>
+          <div class="error">
+            <%= errors.author %>
+          </div>
+          <% } %>
+            <label>Gatunek literacki</label>
+            <input name="genre" value="<%= typeof genre !== 'undefined' ? genre : '' %>"></input>
+            <% if(errors.genre){ %>
+              <div class="error">
+                <%= errors.genre %>
+              </div>
+              <% } %>
+                <label>ISBN</label>
+                <input name="isbn" value="<%= typeof isbn !== 'undefined' ? isbn : '' %>"></input>
+                <% if(errors.isbn){ %>
+                  <div class="error">
+                    <%= errors.isbn %>
+                  </div>
+                  <% } %>
+                    <label>Opis oceny</label>
+                    <textarea name="rating" value="<%= typeof rating !== 'undefined' ? rating : '' %>"></textarea>
+                    <% if(errors.rating){ %>
+                      <div class="error">
+                        <%= errors.rating %>
+                      </div>
+                      <% } %>
+                        <label>Notatki</label>
+                        <textarea name="notes" value="<%= typeof notes !== 'undefined' ? notes : '' %>"></textarea>
+                        <% if(errors.notes){ %>
+                          <div class="error">
+                            <%= errors.notes %>
+                          </div>
+                          <% } %>
+                            <button type="submit">Dodaj</button>
   </form>
 
   <%- include('partials/footerDetails.ejs'); -%>

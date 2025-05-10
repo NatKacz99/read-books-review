@@ -24,12 +24,10 @@ header > p{
 }
 
 .overview_books{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 21px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
 }
 
 .book{
@@ -38,6 +36,7 @@ header > p{
   padding: 0;
   margin: 0;
   height: 700px;
+  max-width: 500px;
 }
 
 .book:hover{
@@ -95,4 +94,10 @@ img{
 
 .star.active {
   color: gold;  
+}
+
+@media(max-width: 768px) {
+  .book{
+    margin: 20px 0;
+  }
 }

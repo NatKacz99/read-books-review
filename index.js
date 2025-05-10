@@ -150,7 +150,8 @@ app.post("/search", async (req, res) => {
   try {
     const searchedPhrase = req.body.search;
     const searchTerm = `%${searchedPhrase.toLowerCase()}%`;
-    const result = await db.query(`SELECT * FROM books WHERE
+    const result = await db.query(`SELECT books.*, rates.rate_digit FROM books
+    LEFT JOIN rates ON books.book_id = rates.book_id WHERE
     LOWER(title) LIKE $1 OR LOWER(author) LIKE $1`, [searchTerm]);
     const books = result.rows;
     if (books.length === 0) {
